@@ -1285,7 +1285,14 @@ const NewItemForm = class {
     return sparqlAskQuery(namespace, `ASK
                   WHERE {
                     <${individualUri}> ?property ?value .
-                  }`, endpoint, this.config.fullUrl).catch((error) => console.error(error));
+                  }`, endpoint, this.config.fullUrl).then((response) => {
+      console.log(response);
+      return response.json();
+    })
+      .then((data) => {
+      console.log(data);
+      return data;
+    }).catch((error) => console.error(error));
   }
   getTechniquesForTactic(tactic) {
     const { namespace, endpoint } = this.config;
@@ -1683,7 +1690,7 @@ const NewItemForm = class {
           objectProperty.individual }, this.formatStringByNamespace(option))))))), objectProperty.selectedClass &&
         objectProperty.individual &&
         !objectProperty.isExistingIndividual && (h("new-individual-sub-form", { componentId: index.toString(), objectProperty: objectProperty, owlPrefix: this.config.prefix, onIndividualSubFormChange: (change) => this.onIndividualSubFormChange(change.detail) })), h("button", { type: 'button', class: 'trash btn btn-outline-danger btn-sm btn-circle my-2', "data-bs-toggle": 'tooltip', "data-bs-placement": 'bottom', title: 'Vyma\u017E objektov\u00FA vlastnos\u0165', onClick: () => this.removeObjectProperty(index) }))))), h("div", null, h("button", { type: 'button', class: 'btn btn-outline-success btn-sm btn-circle plus mb-4', "data-bs-toggle": 'tooltip', "data-bs-placement": 'bottom', title: 'Pridaj nov\u00FA objektov\u00FA vlastnos\u0165', onClick: () => this.addObjectProperty() }))), h("div", { class: 'container-fluid py-3' }), h("div", { class: 'border-solid ml-auto bg-data-color-transparent pb-0 pt-2 px-1 px-sm-4' }, h("div", { class: 'col d-flex justify-content-start text-info mt-1 mb-2 ms-2 text-truncate' }, "D\u00E1tov\u00E9 vlastnosti", this.newIndividual.name ? ':' : '', " \u00A0", h("strong", null, this.formatStringByNamespace(this.newIndividual.name))), h("div", null, this.newIndividual.dataProperties &&
-      this.newIndividual.dataProperties.map((dataProperty, index) => (h("div", { class: 'row px-2 pb-2' }, h("div", { class: 'col-6' }, h("select", { id: 'name', name: 'name', class: `form-select litePurpleColor ${!dataProperty.name ? 'highlight' : ''}`, onInput: (event) => this.handleDataPropertyChange(event, 'name', index) }, h("option", { value: '', selected: true }, "Vyber d\u00E1tov\u00FA vlastnos\u0165..."), dataProperty.dataPropertyOptions.map((option) => (h("option", { value: JSON.stringify(option), selected: option.name === dataProperty.name }, this.formatStringByNamespace(option.name)))))), h("div", { class: 'col-5' }, h("input", { type: 'text', class: `form-control litePurpleColor ${!dataProperty.value ? 'highlight' : ''}`, value: dataProperty.value, onInput: (event) => this.handleDataPropertyChange(event, 'value', index), placeholder: 'Zadaj hodnotu...' })), h("div", { class: 'col-1' }, h("button", { type: 'button', class: 'btn btn-outline-danger trash btn-sm btn-circle trash mb-2', "data-bs-toggle": 'tooltip', "data-bs-placement": 'bottom', title: 'Vyma\u017E d\u00E1tov\u00FA vlastnos\u0165', onClick: () => this.removeDataProperty(index) }))))), h("button", { type: 'button', class: 'btn btn-outline-success btn-sm btn-circle plus mt-1 mb-5', "data-bs-toggle": 'tooltip', "data-bs-placement": 'bottom', title: 'Pridaj nov\u00FA d\u00E1tov\u00FA vlastnos\u0165', onClick: () => this.addDataProperty() }))), h("button", { class: 'button-30', onClick: () => this.onCreateNewMalware() }, "Odosla\u0165"), h("div", { class: 'toast' }, h("div", { class: 'toast-header row justify-content-between' }, h("div", { class: 'col-4 p-0' }, "Chyba"), h("div", { class: 'col-4 p-0' }, h("button", { type: 'button', class: 'toast-close-button', onClick: () => this.closeToast() }, "x"))), h("div", { class: 'toast-body' }))));
+      this.newIndividual.dataProperties.map((dataProperty, index) => (h("div", { class: 'row px-2 pb-2' }, h("div", { class: 'col-6' }, h("select", { id: 'name', name: 'name', class: `form-select litePurpleColor ${!dataProperty.name ? 'highlight' : ''}`, onInput: (event) => this.handleDataPropertyChange(event, 'name', index) }, h("option", { value: '', selected: true }, "Vyber d\u00E1tov\u00FA vlastnos\u0165..."), dataProperty.dataPropertyOptions.map((option) => (h("option", { value: JSON.stringify(option), selected: option.name === dataProperty.name }, this.formatStringByNamespace(option.name)))))), h("div", { class: 'col-5' }, h("input", { type: 'text', class: `form-control litePurpleColor ${!dataProperty.value ? 'highlight' : ''}`, value: dataProperty.value, onInput: (event) => this.handleDataPropertyChange(event, 'value', index), placeholder: 'Zadaj hodnotu...' })), h("div", { class: 'col-1' }, h("button", { type: 'button', class: 'btn btn-outline-danger trash btn-sm btn-circle trash mb-2', "data-bs-toggle": 'tooltip', "data-bs-placement": 'bottom', title: 'Vyma\u017E d\u00E1tov\u00FA vlastnos\u0165', onClick: () => this.removeDataProperty(index) }))))), h("button", { type: 'button', class: 'btn btn-outline-success btn-sm btn-circle plus mt-1 mb-5', "data-bs-toggle": 'tooltip', "data-bs-placement": 'bottom', title: 'Pridaj nov\u00FA d\u00E1tov\u00FA vlastnos\u0165', onClick: () => this.addDataProperty() }))), h("button", { class: 'button-30', onClick: () => this.onCreateNewMalware() }, "Odosla\u0165"), h("div", { class: 'toast' }, h("div", { class: 'toast-header row justify-content-between' }, h("div", { class: 'col-4 p-0 toast-header-inner' }, "Chyba"), h("div", { class: 'col-4 p-0' }, h("button", { type: 'button', class: 'toast-close-button', onClick: () => this.closeToast() }, "x"))), h("div", { class: 'toast-body' }))));
   }
   findAllInShadowRoot(root, className) {
     let elements = Array.from(root.querySelectorAll('.' + className));
@@ -1732,6 +1739,24 @@ const NewItemForm = class {
     }
     this.formSubmitted.emit(this.newIndividual);
     this.generateSPARQLInsertStatementRecursion();
+    const el = shadowRoot.querySelector('.toast');
+    const el2 = shadowRoot.querySelector('.toast-header');
+    const el4 = shadowRoot.querySelector('.toast-header-inner');
+    const el3 = shadowRoot.querySelector('.toast-body');
+    el2.style.backgroundColor = 'green';
+    el4.innerHTML = 'Úspech';
+    el3.innerHTML = `Malware '${this.newIndividual.name}' bol vytvorený!`;
+    el.style.display = 'block';
+    this.updateIndividual({
+      name: '',
+      objectProperties: [],
+      dataProperties: [],
+    });
+    setTimeout(() => {
+      el.style.display = 'none';
+      el2.style.backgroundColor = 'red';
+      el4.innerHTML = 'Chyba';
+    }, 5000);
   }
   async validateNamesAreUnique(individual) {
     const nonUniqueNames = [];
@@ -1739,8 +1764,8 @@ const NewItemForm = class {
     if (individual.objectProperties) {
       // Check the uniqueness of the individual's name
       if (individual.name) {
-        const isUnique = !(await this.doesIndividualExist(individual.name));
-        if (!isUnique) {
+        const inidividualExists = (await this.doesIndividualExist(individual.name));
+        if (inidividualExists) {
           nonUniqueNames.push(individual.name);
         }
       }
